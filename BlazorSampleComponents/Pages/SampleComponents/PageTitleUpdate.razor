@@ -1,0 +1,14 @@
+﻿@page "/PageTitleUpdate"
+<h3>PageTitleUpdate</h3>
+
+<DocumentUpdate Title="@Title"></DocumentUpdate>
+
+<p>The title of this page is (@Title).</p>
+
+See post by Blazor University <a href="https://blazor-university.com/javascript-interop/calling-javascript-from-dotnet/updating-the-document-title/" target="_blank">here</a> for instructions on how to implement.
+
+
+@code {
+
+	private string Title = "Test Page | Adam Brown";
+}
