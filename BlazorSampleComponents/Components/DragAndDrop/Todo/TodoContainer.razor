@@ -1,0 +1,29 @@
+﻿<div class="todo-container">
+	<CascadingValue Value="this">
+		@ChildContent
+	</CascadingValue>
+</div>
+@code {
+	[Parameter]
+	public List<TodoModel> Todos { get; set; }
+	[Parameter]
+	public RenderFragment ChildContent { get; set; }
+	[Parameter]
+	public EventCallback<TodoModel> OnStatusUpdated { get; set; }
+
+	public TodoModel Payload { get; set; }
+
+	public async Task UpdatedTodoAsync(TodoStatuses newStatus)
+	{
+		var task = Todos.SingleOrDefault(x => x.Id == Payload.Id);
+
+		if(task != null)
+		{
+			task.Status = newStatus;
+			task.LastUpdated = DateTime.Now;
+			await OnStatusUpdated.InvokeAsync(Payload);
+		}
+	}
+
+
+}

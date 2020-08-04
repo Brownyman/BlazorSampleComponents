@@ -1,0 +1,17 @@
+﻿<li class="draggable" draggable="true" title="@TodoModel.Description" @ondragstart="@(() => HandleDragStart(TodoModel))">
+	<p class="description">@TodoModel.Description</p>
+	<p class="last-updated"><small>Last Updated</small> @TodoModel.LastUpdated.ToString("HH:mm.ss tt")</p>
+</li>
+
+@code {
+	[CascadingParameter]
+	TodoContainer Container { get; set; }
+	[Parameter]
+	public TodoModel TodoModel { get; set; }
+
+	private void HandleDragStart(TodoModel selectedTodo)
+	{
+		Container.Payload = selectedTodo;
+	}
+
+}

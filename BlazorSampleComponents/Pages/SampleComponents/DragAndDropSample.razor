@@ -1,0 +1,47 @@
+﻿@page "/DragAndDrop"
+@using BlazorSampleComponents.Components.DragAndDrop.Todo
+
+<DocumentUpdate Title="Drag and Drop Sample | Adam Brown" />
+
+<h3>Drag And Drop Sample</h3>
+
+<TodoContainer Todos="Todos" OnStatusUpdated="HandleStatusUpdated">
+	<TodoList ListStatus="TodoStatuses.Todo" AllowedStatuses="@(new TodoStatuses[] {TodoStatuses.InProgress})"/>
+	<TodoList ListStatus="TodoStatuses.InProgress" AllowedStatuses="@(new TodoStatuses[] {TodoStatuses.Todo})"/>
+	<TodoList ListStatus="TodoStatuses.Completed" AllowedStatuses="@(new TodoStatuses[] {TodoStatuses.InProgress})"/>
+</TodoContainer>
+
+<hr />
+<p>Last updated item was: <strong>@lastUpdatedItem</strong></p>
+<hr />
+
+<h4>Todo Details</h4>
+
+@foreach(var todo in Todos)
+{
+	<p>@todo.Description - <strong>@todo.Status</strong></p>
+}
+
+
+<div>
+	<p>The source material for this component was found on Chris Sainty's blog <a href="https://chrissainty.com/investigating-drag-and-drop-with-blazor/" target="_blank">here</a>. </p>
+</div>
+
+@code {
+	List<TodoModel> Todos = new List<TodoModel>();
+	string lastUpdatedItem = "";
+
+	protected override void OnInitialized()
+	{
+		Todos.Add(new TodoModel { Id = 1, Description = "Make Coffee", Status = TodoStatuses.Completed, LastUpdated = DateTime.Now });
+		Todos.Add(new TodoModel { Id = 2, Description = "Finish Project", Status = TodoStatuses.InProgress, LastUpdated = DateTime.Now });
+		Todos.Add(new TodoModel { Id = 3, Description = "Collect Shopping", Status = TodoStatuses.Todo, LastUpdated = DateTime.Now });
+		Todos.Add(new TodoModel { Id = 4, Description = "2pm Team Call", Status = TodoStatuses.Todo, LastUpdated = DateTime.Now });
+		Todos.Add(new TodoModel { Id = 5, Description = "Send Emails", Status = TodoStatuses.Todo, LastUpdated = DateTime.Now });
+	}
+
+	void HandleStatusUpdated(TodoModel updatedTodo)
+	{
+		lastUpdatedItem = updatedTodo.Description;
+	}
+}
